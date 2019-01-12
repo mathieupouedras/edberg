@@ -1,0 +1,36 @@
+## Headers
+header.useragent.name=User-Agent
+header.useragent.value=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0
+header.cookie.name=Cookie
+
+## Url
+url.home=https://
+url.login=https://
+
+## Csrf hiden input
+csrf.hiden.input.element.id=
+csrf.hiden.input.element.attributeName=
+
+## Cookie parameters name
+cookie.parameter.name.cfuid=
+cookie.parameter.name.bjsessionid
+cookie.parameter.name.bjlang=
+
+## Users
+# user upercase and no accent
+user.mathieu.login=
+user.mathieu.password=
+
+## Form parameters
+form.parameter.username=username
+form.parameter.password=password
+form.parameter.cookie_enabled.name=cookie_enabled
+form.parameter.cookie_enabled.value=true
+
+form.parameter.club_id.name=
+form.parameter.club_id.value=
+
+form.parameter.csrf.name=
+
+form.parameter.remember.name=remember
+form.parameter.remember.value=1
