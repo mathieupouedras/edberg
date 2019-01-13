@@ -13,7 +13,15 @@ class SimpleCookiejar implements CookieJar {
 
     @Override
     public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+        for (Cookie cookie : cookies) {
+            for (Cookie existingCookie : storage) {
+                if (cookie.name().equals(existingCookie.name())) {
+                    storage.remove(existingCookie);
+                }
+            }
+        }
         storage.addAll(cookies);
+
     }
 
     @Override

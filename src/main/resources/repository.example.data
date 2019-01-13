@@ -6,15 +6,21 @@ header.cookie.name=Cookie
 ## Url
 url.home=https://
 url.login=https://
+url.book.session=https://
+url.book.create=https://
 
 ## Csrf hiden input
 csrf.hiden.input.element.id=
 csrf.hiden.input.element.attributeName=
 
+csrf.hiden.input.book.element.id=
+csrf.hiden.input.book.element.attributeName=
+
 ## Cookie parameters name
 cookie.parameter.name.cfuid=
 cookie.parameter.name.bjsessionid
 cookie.parameter.name.bjlang=
+cookie.parameter.name.id=
 
 ## Users
 # user upercase and no accent
@@ -31,6 +37,53 @@ form.parameter.club_id.name=
 form.parameter.club_id.value=
 
 form.parameter.csrf.name=
+form.parameter.csrf.reservation.name=
 
 form.parameter.remember.name=remember
 form.parameter.remember.value=1
+
+form.parameter.date.name=date
+form.parameter.date.value=0
+
+form.parameter.schedule.name=schedule
+form.parameter.schedule.value.7=
+form.parameter.schedule.value.8=
+
+
+form.parameter.timestart.name=timestart
+form.parameter.timestart.value.10=
+form.parameter.timestart.value.11=
+
+form.parameter.duration.name=duration
+form.parameter.duration.value=60
+
+##book
+form.parameter.action.name=
+form.parameter.action.value=
+
+form.parameter.member.name=
+form.parameter.member.julien.value=
+form.parameter.member.emmanuel.value=
+form.parameter.member.damien.value=
+form.parameter.member.florian.value=
+
+form.parameter.default_date.name=
+
+form.parameter.default_timestart.name=
+form.parameter.timestart.10.value=10:00
+form.parameter.timestart.11.value=11:00
+
+form.parameter.timeend.name=
+form.parameter.timeend.11.value=11:00
+form.parameter.timeend.12.value=12:00
+
+form.parameter.default_duration.name=
+form.parameter.default_duration.value=
+
+form.parameter.default_schedule.name=
+
+form.parameter.row.name=
+form.parameter.row.value=
+
+form.parameter.request.name=
+form.parameter.request.value=
