@@ -7,16 +7,22 @@ import org.jsoup.nodes.Element;
 
 import java.util.List;
 
-public class HomeData {
+public class ResponseData {
 
     private final List<Cookie> cookies;
-    private final String body;
+    private String body;
     private final Repository repository;
 
-    HomeData(List<Cookie> cookies, String body, Repository repository) {
+    ResponseData(List<Cookie> cookies, String body, Repository repository) {
         this.cookies = cookies;
         this.body = body;
         this.repository = repository;
+    }
+
+    public ResponseData(List<Cookie> cookies, Repository repository) {
+        this.cookies = cookies;
+        this.repository = repository;
+        this.body = null;
     }
 
     List<Cookie> getCookies() {
@@ -34,6 +40,7 @@ public class HomeData {
         for (int i = 0; i < cookies.size(); i++) {
             if (cookies.get(i).name().equals(repository.getCookieParameterName("cookie.parameter.name.uid"))
                     || cookies.get(i).name().equals(repository.getCookieParameterName("cookie.parameter.name.sessionid"))
+                    || cookies.get(i).name().equals(repository.getCookieParameterName("cookie.parameter.name.id"))
                     || cookies.get(i).name().equals(repository.getCookieParameterName("cookie.parameter.name.lang"))) {
                 stringBuilder.append(cookies.get(i).name());
                 stringBuilder.append("=");

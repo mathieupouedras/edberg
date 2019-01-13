@@ -46,6 +46,16 @@ public class PropertiesFileRepository implements Repository {
     }
 
     @Override
+    public String getBookCsrfHidenInputElementId() {
+        return properties.getProperty("csrf.hiden.input.book.element.id");
+    }
+
+    @Override
+    public String getBookCsrfHidenInputElementAttributeName() {
+        return properties.getProperty("csrf.hiden.input.book.element.attributeName");
+    }
+
+    @Override
     public String getFormParameterName(String name) {
         return properties.getProperty(name);
     }
@@ -53,6 +63,36 @@ public class PropertiesFileRepository implements Repository {
     @Override
     public Pair getUserMathieu() {
         return new Pair(properties.getProperty("user.mathieu.login"), properties.getProperty("user.mathieu.password"));
+    }
+
+    @Override
+    public Pair getDefaultDate() {
+        return new Pair(properties.getProperty("form.parameter.date.name"), properties.getProperty("form.parameter.date.value"));
+    }
+
+    @Override
+    public Pair getSchedule7() {
+        return new Pair(properties.getProperty("form.parameter.schedule.name"), properties.getProperty("form.parameter.schedule.value.7"));
+    }
+
+    @Override
+    public Pair getSchedule8() {
+        return new Pair(properties.getProperty("form.parameter.schedule.name"), properties.getProperty("form.parameter.schedule.value.8"));
+    }
+
+    @Override
+    public Pair getTimeStart10() {
+        return new Pair(properties.getProperty("form.parameter.timestart.name"), properties.getProperty("form.parameter.timestart.value.10"));
+    }
+
+    @Override
+    public Pair getTimeStart11() {
+        return new Pair(properties.getProperty("form.parameter.timestart.name"), properties.getProperty("form.parameter.timestart.value.11"));
+    }
+
+    @Override
+    public Pair getDefaultDuration() {
+        return new Pair(properties.getProperty("form.parameter.duration.name"), properties.getProperty("form.parameter.duration.value"));
     }
 
     private Properties loadProperties() {

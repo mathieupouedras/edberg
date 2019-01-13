@@ -46,6 +46,26 @@ public class HttpRequestService implements RequestService {
         return post(repository.getUrl("url.login"), headers, formBody);
     }
 
+    @Override
+    public String chooseSchedule(String cookieValue, Pair date, Pair schedule, Pair timestart, Pair duration) {
+        List<Pair> headers = new ArrayList<>();
+        headers.add(repository.getUserAgent());
+        headers.add(new Pair(repository.getCookieParameterName("header.cookie.name"), cookieValue));
+        FormBody formBody = new FormBody.Builder()
+                .add(date.getName(), date.getValue())
+                .add(schedule.getName(), schedule.getValue())
+                .add(timestart.getName(), timestart.getValue())
+                .add(duration.getName(), duration.getValue())
+                .build();
+
+        return post(repository.getUrl("url.book.session"), headers, formBody);
+    }
+
+    @Override
+    public String chooseSchedule(String cookieValue, Pair schedule, Pair timestart) {
+        return chooseSchedule(cookieValue, repository.getDefaultDate(), schedule, timestart, repository.getDefaultDuration());
+    }
+
     private String post(String url, List<Pair> headers, FormBody formBody) {
         Request.Builder builder = createBuilder(url, headers);
         builder.post(formBody);
