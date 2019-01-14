@@ -61,7 +61,6 @@ public class HttpRequestService implements RequestService {
         return post(repository.getUrl("url.book.session"), headers, formBody);
     }
 
-
     @Override
     public String chooseSchedule(String cookieValue, Pair schedule, Pair timestart) {
         return chooseSchedule(cookieValue, repository.getDefaultDate(), schedule, timestart, repository.getDefaultDuration());

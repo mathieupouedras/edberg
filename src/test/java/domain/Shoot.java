@@ -53,6 +53,5 @@ class Shoot {
         String create = requestService.createSchedule(responseDataChooseSchedule.buildCookieHeader(), executeScheduleFormParameters);
 
         System.out.println(create);
-
     }
 }
