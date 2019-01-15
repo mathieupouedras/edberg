@@ -13,7 +13,7 @@ public class ResponseData {
     private String body;
     private final Repository repository;
 
-    ResponseData(List<Cookie> cookies, String body, Repository repository) {
+    public ResponseData(List<Cookie> cookies, String body, Repository repository) {
         this.cookies = cookies;
         this.body = body;
         this.repository = repository;
@@ -29,7 +29,7 @@ public class ResponseData {
         return cookies;
     }
 
-    String getCsrf() {
+    public String getCsrf() {
         Document document = Jsoup.parse(body);
         Element elementById = document.getElementById(repository.getCsrfHidenInputElementId());
         return elementById.attr(repository.getCsrfHidenInputElementAttributeName());
@@ -42,7 +42,7 @@ public class ResponseData {
     }
 
 
-    String buildCookieHeader() {
+    public String buildCookieHeader() {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < cookies.size(); i++) {
             if (cookies.get(i).name().equals(repository.getCookieParameterName("cookie.parameter.name.uid"))
