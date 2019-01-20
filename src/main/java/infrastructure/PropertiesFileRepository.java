@@ -66,6 +66,11 @@ public class PropertiesFileRepository implements Repository {
     }
 
     @Override
+    public Pair getUserJulien() {
+        return new Pair(properties.getProperty("user.julien.login"), properties.getProperty("user.julien.password"));
+    }
+
+    @Override
     public Pair getDefaultDate() {
         return new Pair(properties.getProperty("form.parameter.date.name"), properties.getProperty("form.parameter.date.value"));
     }

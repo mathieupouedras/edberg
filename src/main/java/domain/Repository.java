@@ -21,6 +21,8 @@ public interface Repository {
 
     Pair getUserMathieu();
 
+    Pair getUserJulien();
+
     Pair getDefaultDate();
 
     Pair getSchedule7();
