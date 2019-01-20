@@ -40,5 +40,26 @@ class PropertiesFileRepositoryTest {
         System.out.println(repository.getTimeStart10());
         System.out.println(repository.getTimeStart11());
         System.out.println(repository.getDefaultDuration());
+
+    }
+
+    @Test
+    void should_dirty_test() {
+        Repository repository = new PropertiesFileRepository("repository.data");
+
+        System.out.println(repository.getUserMathieu());
+        System.out.println(repository.getUserJulien());
+        System.out.println(repository.getFormParameterName("form.parameter.member.damien.value"));
+        System.out.println(repository.getFormParameterName("form.parameter.member.emmanuel.value"));
+
+
+        System.out.println(repository.getFormParameterName("form.parameter.timeend.11.value"));
+        System.out.println(repository.getFormParameterName("form.parameter.timeend.12.value"));
+        System.out.println(repository.getFormParameterName("form.parameter.schedule.value.7"));
+        System.out.println("");
+        System.out.println(repository.getFormParameterName("form.parameter.timestart.10.value"));
+        System.out.println(repository.getFormParameterName("form.parameter.timeend.11.value"));
+        System.out.println(repository.getFormParameterName("form.parameter.schedule.value.7"));
+
     }
 }
