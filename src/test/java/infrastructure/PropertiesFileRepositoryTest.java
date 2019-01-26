@@ -15,7 +15,7 @@ class PropertiesFileRepositoryTest {
     @Test
     void should_retrieve_useragent() {
         Repository repository = new PropertiesFileRepository("repository.data");
-        Pair expectedUserAgent = new Pair("useragent", "A user agent");
+        Pair expectedUserAgent = new Pair("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0");
 
         assertThat(repository.getUserAgent(), is(expectedUserAgent));
     }
