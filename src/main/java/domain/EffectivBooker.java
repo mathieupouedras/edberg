@@ -6,7 +6,7 @@ public class EffectivBooker implements Booker {
     public void boo2Hours(Repository repository, CourtRepository courtRepository, RequestService requestServiceMathieu, RequestService requestServiceJulien) {
         Court elisabeth7 = courtRepository.forName("Elisabeth n°7");
         Court elisabeth8 = courtRepository.forName("Elisabeth n°8");
-        String date = "2019-02-03";
+        String date = "2019-02-24";
 
         Schedule elisabeth7_10h = new Schedule(elisabeth7, "600", 60, 6, "10:00", "11:00");
         Schedule elisabeth7_11h = new Schedule(elisabeth7, "660", 60, 6, "11:00", "12:00");
