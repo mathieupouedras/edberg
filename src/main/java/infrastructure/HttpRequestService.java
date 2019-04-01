@@ -5,6 +5,9 @@ import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,24 +16,46 @@ import java.util.List;
 public class HttpRequestService implements RequestService {
     private final Repository repository;
     private final OkHttpClient okHttpClient;
+    private final SimpleCookiejar simpleCookiejar;
+    private final Session session;
 
-    public HttpRequestService(Repository repository, OkHttpClient okHttpClient) {
+    public HttpRequestService(Repository repository) {
         this.repository = repository;
-        this.okHttpClient = okHttpClient;
+        simpleCookiejar = new SimpleCookiejar();
+        okHttpClient = new OkHttpClient.Builder()
+                .cookieJar(simpleCookiejar)
+                .build();
+        session = new Session(simpleCookiejar, repository);
+
     }
 
     @Override
-    public String home() {
+    public void home() {
         List<Pair> headers = new ArrayList<>();
         headers.add(repository.getUserAgent());
-        return get(repository.getUrl("url.home"), headers);
+        String body = get(repository.getUrl("url.home"), headers);
+        session.setSecurityToken(getSecurityToken(body, repository.getCsrfHidenInputElementId(),
+                repository.getCsrfHidenInputElementAttributeName()));
+        System.out.println(body.substring(0, 150));
     }
 
+    //@Todo move this to an other class
+    private String getSecurityToken(String body, String elmentId, String attributeName) {
+        Document document = Jsoup.parse(body);
+        Element elementById = document.getElementById(elmentId);
+        String securityToken = elementById.attr(attributeName);
+
+        System.out.println("Security token : " + securityToken);
+
+        return securityToken;
+    }
+
+
     @Override
-    public String login(String csrf, String cookieValue, Pair user) {
+    public domain.Response login(Pair user) {
         List<Pair> headers = new ArrayList<>();
         headers.add(repository.getUserAgent());
-        headers.add(new Pair(repository.getCookieParameterName("header.cookie.name"), cookieValue));
+        headers.add(new Pair(repository.getCookieParameterName("header.cookie.name"), session.buildCookieHeader(repository.getUrl("url.home"))));
         FormBody formBody = new  FormBody.Builder()
                 .add(repository.getFormParameterName("form.parameter.username"), user.getName())
                 .add(repository.getFormParameterName("form.parameter.password"), user.getValue())
@@ -40,44 +65,53 @@ public class HttpRequestService implements RequestService {
                         repository.getFormParameterName("form.parameter.club_id.value"))
                 .add(repository.getFormParameterName("form.parameter.remember.name"),
                         repository.getFormParameterName("form.parameter.remember.value"))
-                .add(repository.getFormParameterName("form.parameter.csrf.name"), csrf)
+                .add(repository.getFormParameterName("form.parameter.csrf.name"), session.getSecurityToken())
                 .build();
 
-        return post(repository.getUrl("url.login"), headers, formBody);
+        String body = post(repository.getUrl("url.login"), headers, formBody);
+        return new domain.Response(body);
     }
 
     @Override
-    public String chooseSchedule(String cookieValue, Pair date, Pair schedule, Pair timestart, Pair duration) {
+    public domain.Response chooseSchedule(Court court, Schedule schedule) {
         List<Pair> headers = new ArrayList<>();
         headers.add(repository.getUserAgent());
-        headers.add(new Pair(repository.getCookieParameterName("header.cookie.name"), cookieValue));
+        headers.add(new Pair(repository.getCookieParameterName("header.cookie.name"), session.buildCookieHeader(repository.getUrl("url.login"))));
         FormBody formBody = new FormBody.Builder()
-                .add(date.getName(), date.getValue())
-                .add(schedule.getName(), schedule.getValue())
-                .add(timestart.getName(), timestart.getValue())
-                .add(duration.getName(), duration.getValue())
+                .add(repository.getDefaultDate().getName(), String.valueOf(schedule.getDayNumber()))
+                .add(repository.getSchedule7().getName(), court.getId())
+                .add(repository.getTimeStart10().getName(), schedule.getStartTimeId())
+                .add(repository.getDefaultDuration().getName(), String.valueOf(schedule.getDuration()))
                 .build();
 
-        return post(repository.getUrl("url.book.session"), headers, formBody);
+        String body = post(repository.getUrl("url.book.session"), headers, formBody);
+        session.setSecurityToken(getSecurityToken(body, repository.getBookCsrfHidenInputElementId(),
+                repository.getBookCsrfHidenInputElementAttributeName()));
+
+        return new domain.Response(body);
     }
 
-    @Override
-    public String chooseSchedule(String cookieValue, Pair schedule, Pair timestart) {
-        return chooseSchedule(cookieValue, repository.getDefaultDate(), schedule, timestart, repository.getDefaultDuration());
-    }
 
     @Override
-    public String createSchedule(String cookieValue, ExecuteScheduleFormParameters formParameters) {
+    public domain.Response createSchedule(Schedule schedule, String date, String partnerId) {
         List<Pair> headers = new ArrayList<>();
         headers.add(repository.getUserAgent());
-        headers.add(new Pair(repository.getCookieParameterName("header.cookie.name"), cookieValue));
+        headers.add(new Pair(repository.getCookieParameterName("header.cookie.name"), session.buildCookieHeader(repository.getUrl("url.book.session"))));
         FormBody.Builder formBodyBuilder = new FormBody.Builder();
-        for (Pair parameter : formParameters.getParameters()) {
-            formBodyBuilder.add(parameter.getName(), parameter.getValue());
-        }
+        formBodyBuilder.add(repository.getFormParameterName("form.parameter.action.name"), repository.getFormParameterName("form.parameter.action.value"));
+        formBodyBuilder.add(repository.getFormParameterName("form.parameter.choice.name"), repository.getFormParameterName("form.parameter.choice.value"));
+        formBodyBuilder.add(repository.getFormParameterName("form.parameter.default_duration.name"), String.valueOf(schedule.getDuration()));
+        formBodyBuilder.add(repository.getFormParameterName("form.parameter.row.name"), String.valueOf(schedule.getDayNumber()));
+        formBodyBuilder.add(repository.getFormParameterName("form.parameter.request.name"), repository.getFormParameterName("form.parameter.request.value"));
+        formBodyBuilder.add(repository.getFormParameterName("form.parameter.member.name"), partnerId);
+        formBodyBuilder.add(repository.getFormParameterName("form.parameter.default_date.name"), date);
+        formBodyBuilder.add(repository.getFormParameterName("form.parameter.default_timestart.name"), schedule.getStartTime());
+        formBodyBuilder.add(repository.getFormParameterName("form.parameter.timeend.name"), schedule.getEndTime());
+        formBodyBuilder.add(repository.getFormParameterName("form.parameter.default_schedule.name"), schedule.getCourt().getId());
+        formBodyBuilder.add(repository.getFormParameterName("form.parameter.csrf.reservation.name"), session.getSecurityToken());
 
-        return post(repository.getUrl("url.book.create"), headers, formBodyBuilder.build());
-
+        String body = post(repository.getUrl("url.book.create"), headers, formBodyBuilder.build());
+        return new domain.Response(body);
     }
 
     private String post(String url, List<Pair> headers, FormBody formBody) {

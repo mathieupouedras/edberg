@@ -23,84 +23,96 @@ class Shoot {
                 .cookieJar(simpleCookiejar2)
                 .build();
 
-
         Repository repository = new PropertiesFileRepository("repository.data");
-        RequestService requestService = new HttpRequestService(repository, client);
+        //RequestService requestService = new HttpRequestService(repository, client);
 
-        book_11h(simpleCookiejar, repository, requestService);
+        //book_11h(simpleCookiejar, repository, requestService);
 
-        RequestService requestService2 = new HttpRequestService(repository, client2);
-        book_10h(simpleCookiejar2, repository, requestService2);
+        RequestService requestService2 = new HttpRequestService(repository);
+        //book_10h(simpleCookiejar2, repository, requestService2);
 
-
-    }
-
-    private void book_11h(SimpleCookiejar simpleCookiejar, Repository repository, RequestService requestService) {
-        String homeBody = requestService.home();
-        ResponseData responseDataHome = new ResponseData(simpleCookiejar.loadForRequest(HttpUrl.get(repository.getUrl("url.home"))),
-                homeBody, repository);
-
-        String login = requestService.login(responseDataHome.getCsrf(), responseDataHome.buildCookieHeader(), repository.getUserJulien());
-
-        System.out.println(login);
-
-        ResponseData responseDataLogin = new ResponseData(simpleCookiejar.loadForRequest(HttpUrl.get(repository.getUrl("url.login"))), repository);
-
-        String chooseScheduleBody = requestService.chooseSchedule(responseDataLogin.buildCookieHeader(),
-                repository.getDefaultDate(),
-                repository.getSchedule7(),
-                repository.getTimeStart11(),
-                repository.getDefaultDuration());
-
-        ResponseData responseDataChooseSchedule = new ResponseData(simpleCookiejar.loadForRequest(HttpUrl.get(repository.getUrl("url.book.session"))),
-                chooseScheduleBody, repository);
-
-        ExecuteScheduleFormParameters executeScheduleFormParameters = new ExecuteScheduleFormParameters.Builder(repository)
-                .member(repository.getFormParameterName("form.parameter.member.damien.value"))
-                .date("2019-01-27")
-                .timeStart(repository.getFormParameterName("form.parameter.timeend.11.value"))
-                .timeEnd(repository.getFormParameterName("form.parameter.timeend.12.value"))
-                .schedule(repository.getFormParameterName("form.parameter.schedule.value.7"))
-                .csrf(responseDataChooseSchedule.getExecuteCsrf())
-                .build();
-
-        String create = requestService.createSchedule(responseDataChooseSchedule.buildCookieHeader(), executeScheduleFormParameters);
-
-        System.out.println(create);
 
     }
 
-    private void book_10h(SimpleCookiejar simpleCookiejar, Repository repository, RequestService requestService) {
-        String homeBody = requestService.home();
-        ResponseData responseDataHome = new ResponseData(simpleCookiejar.loadForRequest(HttpUrl.get(repository.getUrl("url.home"))),
-                homeBody, repository);
-
-        String login = requestService.login(responseDataHome.getCsrf(), responseDataHome.buildCookieHeader(), repository.getUserMathieu());
-
-        System.out.println(login);
-
-        ResponseData responseDataLogin = new ResponseData(simpleCookiejar.loadForRequest(HttpUrl.get(repository.getUrl("url.login"))), repository);
-
-        String chooseScheduleBody = requestService.chooseSchedule(responseDataLogin.buildCookieHeader(),
-                repository.getDefaultDate(),
-                repository.getSchedule7(),
-                repository.getTimeStart10(),
-                repository.getDefaultDuration());
-
-        ResponseData responseDataChooseSchedule = new ResponseData(simpleCookiejar.loadForRequest(HttpUrl.get(repository.getUrl("url.book.session"))),
-                chooseScheduleBody, repository);
-
-        ExecuteScheduleFormParameters executeScheduleFormParameters = new ExecuteScheduleFormParameters.Builder(repository)
-                .member(repository.getFormParameterName("form.parameter.member.emmanuel.value"))
-                .date("2019-01-27")
-                .timeStart(repository.getFormParameterName("form.parameter.timestart.10.value"))
-                .timeEnd(repository.getFormParameterName("form.parameter.timeend.11.value"))
-                .schedule(repository.getFormParameterName("form.parameter.schedule.value.7"))
-                .csrf(responseDataChooseSchedule.getExecuteCsrf())
-                .build();
-
-        String create = requestService.createSchedule(responseDataChooseSchedule.buildCookieHeader(), executeScheduleFormParameters);
-
-        System.out.println(create);
-    }
+//    private void book_11h(SimpleCookiejar simpleCookiejar, Repository repository, RequestService requestService) {
+//        requestService.home();
+//        String homeBody = null;
+//        ResponseData responseDataHome = new ResponseData(simpleCookiejar.loadForRequest(HttpUrl.get(repository.getUrl("url.home"))),
+//                homeBody, repository);
+//
+//        Response login = requestService.login(repository.getUserJulien());
+//
+//        System.out.println(login);
+//
+//        ResponseData responseDataLogin = new ResponseData(simpleCookiejar.loadForRequest(HttpUrl.get(repository.getUrl("url.login"))), repository);
+//
+//        Response chooseScheduleResponse = requestService.chooseSchedule(responseDataLogin.buildCookieHeader(),
+//                repository.getDefaultDate(),
+//                repository.getSchedule7(),
+//                repository.getTimeStart11(),
+//                repository.getDefaultDuration());
+//
+//        if (chooseScheduleResponse.isSuccessFull()) {
+//
+//            ResponseData responseDataChooseSchedule = new ResponseData(simpleCookiejar.loadForRequest(HttpUrl.get(repository.getUrl("url.book.session"))),
+//                    chooseScheduleResponse.getBody(), repository);
+//
+//
+//            ExecuteScheduleFormParameters executeScheduleFormParameters = new ExecuteScheduleFormParameters.Builder(repository)
+//                    .member(repository.getFormParameterName("form.parameter.member.damien.value"))
+//                    .date("2019-01-27")
+//                    .timeStart(repository.getFormParameterName("form.parameter.timeend.11.value"))
+//                    .timeEnd(repository.getFormParameterName("form.parameter.timeend.12.value"))
+//                    .schedule(repository.getFormParameterName("form.parameter.schedule.value.7"))
+//                    .csrf(responseDataChooseSchedule.getExecuteCsrf())
+//                    .build();
+//
+//            String create = requestService.createSchedule(responseDataChooseSchedule.buildCookieHeader(), executeScheduleFormParameters);
+//
+//            System.out.println(create);
+//        }
+//        else {
+//            System.err.println(chooseScheduleResponse.getBody());
+//
+//        }
+//
+//    }
+//
+//    private void book_10h(SimpleCookiejar simpleCookiejar, Repository repository, RequestService requestService) {
+//        requestService.home();
+//        String homeBody = null;
+//        ResponseData responseDataHome = new ResponseData(simpleCookiejar.loadForRequest(HttpUrl.get(repository.getUrl("url.home"))),
+//                homeBody, repository);
+//
+//        Response login = requestService.login(repository.getUserMathieu());
+//
+//        System.out.println(login);
+//
+//        ResponseData responseDataLogin = new ResponseData(simpleCookiejar.loadForRequest(HttpUrl.get(repository.getUrl("url.login"))), repository);
+//
+//        Response chooseScheduleResponse = requestService.chooseSchedule(
+//
+//        if (chooseScheduleResponse.isSuccessFull()) {
+//
+//
+//            ResponseData responseDataChooseSchedule = new ResponseData(simpleCookiejar.loadForRequest(HttpUrl.get(repository.getUrl("url.book.session"))),
+//                    chooseScheduleResponse.getBody(), repository);
+//
+//            ExecuteScheduleFormParameters executeScheduleFormParameters = new ExecuteScheduleFormParameters.Builder(repository)
+//                    .member(repository.getFormParameterName("form.parameter.member.emmanuel.value"))
+//                    .date("2019-01-27")
+//                    .timeStart(repository.getFormParameterName("form.parameter.timestart.10.value"))
+//                    .timeEnd(repository.getFormParameterName("form.parameter.timeend.11.value"))
+//                    .schedule(repository.getFormParameterName("form.parameter.schedule.value.7"))
+//                    .csrf(responseDataChooseSchedule.getExecuteCsrf())
+//                    .build();
+//
+//            String create = requestService.createSchedule(responseDataChooseSchedule.buildCookieHeader(), executeScheduleFormParameters);
+//
+//            System.out.println(create);
+//        }
+//        else {
+//            System.err.println(chooseScheduleResponse.getBody());
+//        }
+//    }
 }

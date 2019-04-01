@@ -1,5 +1,7 @@
 package infrastructure;
 
+import domain.Court;
+import domain.CourtRepository;
 import domain.Pair;
 import domain.Repository;
 import org.junit.jupiter.api.Test;
@@ -11,6 +13,13 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PropertiesFileRepositoryTest {
+
+    @Test
+    void should() {
+        CourtRepository courtRepository = new StaticCourtRepository();
+        Court court = courtRepository.forName("Elisabeth n°8");
+        System.out.println(court.getId());
+    }
 
     @Test
     void should_retrieve_useragent() {
