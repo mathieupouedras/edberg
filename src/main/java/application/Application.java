@@ -34,9 +34,9 @@ public class Application {
             RequestService requestServiceMathieu = new HttpRequestService(repository);
             RequestService requestServiceJulien = new HttpRequestService(repository);
 
-            LocalDateTime loginTime = LocalDateTime.of(2019, 3, 31, 23, 50, 0, 0);
+            LocalDateTime loginTime = LocalDateTime.of(2019, 4, 28, 23, 50, 0, 0);
 
-            LocalDateTime bookingTime = LocalDateTime.of(2019, 4, 1, 0, 0, 0, 0);
+            LocalDateTime bookingTime = LocalDateTime.of(2019, 4, 29, 0, 0, 0, 0);
 
             Booker booker = new EffectivBooker();
 
