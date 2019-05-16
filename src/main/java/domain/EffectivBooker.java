@@ -4,9 +4,14 @@ public class EffectivBooker implements Booker {
 
     @Override
     public void boo2Hours(Repository repository, CourtRepository courtRepository, RequestService requestServiceMathieu, RequestService requestServiceJulien) {
+        Court elisabeth5 = courtRepository.forName("Elisabeth n°5");
         Court elisabeth7 = courtRepository.forName("Elisabeth n°7");
         Court elisabeth8 = courtRepository.forName("Elisabeth n°8");
-        String date = "2019-05-12";
+        String date = "2019-05-19";
+
+        Schedule elisabeth5_16h = new Schedule(elisabeth5, "960", 60, 6, "16:00", "17:00");
+        Schedule elisabeth5_17h = new Schedule(elisabeth5, "1020", 60, 6, "17:00", "18:00");
+
 
         Schedule elisabeth7_10h = new Schedule(elisabeth7, "600", 60, 6, "10:00", "11:00");
         Schedule elisabeth7_11h = new Schedule(elisabeth7, "660", 60, 6, "11:00", "12:00");
@@ -14,21 +19,11 @@ public class EffectivBooker implements Booker {
         Schedule elisabeth8_10h = new Schedule(elisabeth8, "600", 60, 6, "10:00", "11:00");
         Schedule elisabeth8_11h = new Schedule(elisabeth8, "660", 60, 6, "11:00", "12:00");
 
-        boolean bookingSuccessfull1 = book(repository, requestServiceMathieu, elisabeth7, elisabeth7_11h, date,
+        book(repository, requestServiceMathieu, elisabeth5, elisabeth5_16h, date,
                 repository.getFormParameterName("form.parameter.member.emmanuel.value"));
 
-        if (bookingSuccessfull1) {
-            book(repository, requestServiceJulien, elisabeth7, elisabeth7_10h, date,
+            book(repository, requestServiceJulien, elisabeth5, elisabeth5_17h, date,
                     repository.getFormParameterName("form.parameter.member.damien.value"));
-        }
-        else {
-            book(repository, requestServiceJulien, elisabeth8, elisabeth8_10h, date,
-                    repository.getFormParameterName("form.parameter.member.damien.value"));
-
-            book(repository, requestServiceMathieu, elisabeth8, elisabeth8_11h, date,
-                    repository.getFormParameterName("form.parameter.member.emmanuel.value"));
-
-        }
     }
 
     private boolean book(Repository repository, RequestService requestService, Court court, Schedule schedule, String date, String partnerId) {
